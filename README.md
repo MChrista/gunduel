@@ -1,7 +1,8 @@
 Gun Duel
 ========
 Original idea is from [Codegolf Stackexchange](http://codegolf.stackexchange.com/questions/104896/the-futuristic-gun-duel). The basic rules are as follows.
-> **In general:**
+
+**In general:**
 Each player starts with an unloaded gun that can load an infinite amount of bullets.
 Each turn, players will choose from one of the following actions simultaneously:
  - load a bullet into the gun (-1 ammo)
