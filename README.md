@@ -5,8 +5,8 @@ Original idea is from [Codegolf Stackexchange](http://codegolf.stackexchange.com
 **In general:**
 Each player starts with an unloaded gun that can load an infinite amount of bullets.
 Each turn, players will choose from one of the following actions simultaneously:
- - load a bullet into the gun (-1 ammo)
- - fire a bullet from the gun (+1 ammo)
+ - load a bullet into the gun (+1 ammo)
+ - fire a bullet from the gun (-1 ammo)
  - defend an incoming bullet (+/- 0 ammo)
 
 No bullet can be fired from an empty gun. If both players choose the action fire in the same turn no one will be hit and the duel continues.
