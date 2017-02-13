@@ -21,11 +21,11 @@ public class Duel {
     private static short turn = 1;
     
     // players
-    private static RandomPlayer playerA;
+    private static MathPlayer playerA;
     private static RandomPlayer playerB;
 
     public static void main(String []args) {
-        playerA = new RandomPlayer();
+        playerA = new MathPlayer();
         playerB = new RandomPlayer();
         gameloop();
     }
@@ -43,7 +43,7 @@ public class Duel {
         boolean playerAValidAction = true;
         boolean playerBValidAction = true;
         
-        System.out.println(turn + ":\tA("+playerAAmmo+"), playerBAction("+playerBAmmo+")");
+        System.out.println(turn + ":\tA("+playerAAmmo+") \tB("+playerBAmmo+")");
         
         // receive players actions and inform them
         Action playerAAction = playerA.nextAction();
@@ -85,6 +85,6 @@ public class Duel {
     }
     
     private static void print (short turn, Action playerAAction, Action playerBAction, Result r) {
-        System.out.println(turn + ":\tA->" + playerAAction + " playerBAction->" + playerBAction + " ==> " + r);
+        System.out.println(turn + ":\tA->" + playerAAction + "\tB->" + playerBAction + " ==> " + r);
     }
 }
