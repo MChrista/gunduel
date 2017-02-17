@@ -1,5 +1,3 @@
-package gunduel;
-
 public class TurtlePlayer implements Player
 {
 
