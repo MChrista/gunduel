@@ -1,5 +1,3 @@
-package gunduel;
-
 public class RandomPlayer implements Player {
 
 	private short ownAmmo;
