@@ -8,8 +8,9 @@ Each turn, players will choose from one of the following actions simultaneously:
  - load a bullet into the gun (+1 ammo)
  - fire a bullet from the gun (-1 ammo)
  - defend an incoming bullet (+/- 0 ammo)
+ - repair your shield (+1 health)
 
-No bullet can be fired from an empty gun. If done anyway the shooting player dies. If both players choose the action fire in the same turn no one will be hit and the duel continues.
+No bullet can be fired from an empty gun. If done anyway the shooting player dies. If both players choose the action fire in the same turn no one will be hit and the duel continues. An incoming bullet cannot be defended with a shield on zero health hence the defending player dies.
 
 **Loss:**
 A player got hit by a bullet.
