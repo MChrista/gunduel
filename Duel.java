@@ -1,18 +1,19 @@
-package gunduel;
-
 public class Duel {
     
     // result matrix
-    private static final Result[][] resultMatrix = 
-    {
-        {Result.DRAW, Result.BWIN, Result.DRAW},
-        {Result.AWIN, Result.DRAW, Result.DRAW},
-        {Result.DRAW, Result.DRAW, Result.DRAW}
-    };
+	private static final Result[][] resultMatrix =
+	{
+			{ Result.DRAW, Result.BWIN, Result.DRAW, Result.DRAW },
+			{ Result.AWIN, Result.DRAW, Result.DRAW, Result.AWIN },
+			{ Result.DRAW, Result.DRAW, Result.DRAW, Result.DRAW },
+			{ Result.DRAW, Result.BWIN, Result.DRAW, Result.DRAW } 
+	};
     
     // internal game stats
     private static short playerAAmmo = 0;
     private static short playerBAmmo = 0;
+    private static short playerAShieldHealth = 5;
+    private static short playerBShieldHealth = 5;
     private static Result result = Result.DRAW;
     private static boolean forceEnd = false;
     
@@ -21,11 +22,11 @@ public class Duel {
     private static short turn = 1;
     
     // players
-    private static MathPlayer playerA;
+    private static ReductionPlayer playerA;
     private static RandomPlayer playerB;
 
     public static void main(String []args) {
-        playerA = new MathPlayer();
+        playerA = new ReductionPlayer();
         playerB = new RandomPlayer();
         gameloop();
     }
@@ -43,18 +44,19 @@ public class Duel {
         boolean playerAValidAction = true;
         boolean playerBValidAction = true;
         
-        System.out.println(turn + ":\tA("+playerAAmmo+") \tB("+playerBAmmo+")");
+        System.out.println(turn + ":\tA("+playerAAmmo+")S("+playerAShieldHealth+")  B("+playerBAmmo+")S("+playerBShieldHealth+")");
         
         // receive players actions and inform them
         Action playerAAction = playerA.nextAction();
         Action playerBAction = playerB.nextAction();
+        
         // this call could also be done or eventually avoided after the action validity check
         playerA.perceive(playerBAction);
         playerB.perceive(playerAAction);
         
         // check for validity of moves and publish result
-        playerAValidAction = (playerAAmmo == 0 && playerAAction == Action.FIRE) ? false : true;
-        playerBValidAction = (playerBAmmo == 0 && playerBAction == Action.FIRE) ? false : true;
+        playerAValidAction = ((playerAAmmo == 0 && playerAAction == Action.FIRE) || (playerAShieldHealth == 0 && (playerAAction == Action.DFND && playerBAction == Action.FIRE))) ? false : true;
+        playerBValidAction = ((playerBAmmo == 0 && playerBAction == Action.FIRE) || (playerBShieldHealth == 0 && (playerAAction == Action.FIRE && playerBAction == Action.DFND))) ? false : true;
         if (playerAValidAction && playerBValidAction) {
             result = resultMatrix[playerAAction.ordinal()][playerBAction.ordinal()];
         } else {
@@ -67,7 +69,7 @@ public class Duel {
             }
             forceEnd = true;
         }
-        print(turn, playerAAction, playerBAction, result);
+        System.out.println(turn + ":\tA->" + playerAAction + "\t  B->" + playerBAction + " ==> " + result);
         
       //update stats
         if (playerAAction == Action.LOAD) {
@@ -76,15 +78,24 @@ public class Duel {
         if (playerAAction == Action.FIRE && playerAAmmo > 0) {
             playerAAmmo--;
         }
+        if (playerAAction == Action.DFND && playerBAction == Action.FIRE && playerBValidAction) {
+        	playerAShieldHealth--;
+        }
+        if(playerAAction == Action.REPR && playerBAction != Action.FIRE) {
+        	playerAShieldHealth++;
+        }
         if (playerBAction == Action.LOAD) {
             playerBAmmo++;
         }
         if (playerBAction == Action.FIRE && playerBAmmo > 0) {
         	playerBAmmo--;
         }
+        if (playerBAction == Action.DFND && playerAAction == Action.FIRE && playerAValidAction) {
+        	playerBShieldHealth--;
+        }
+        if (playerBAction == Action.REPR && playerAAction != Action.FIRE) {
+        	playerBShieldHealth++;
+        }
     }
     
-    private static void print (short turn, Action playerAAction, Action playerBAction, Result r) {
-        System.out.println(turn + ":\tA->" + playerAAction + "\tB->" + playerBAction + " ==> " + r);
-    }
 }
